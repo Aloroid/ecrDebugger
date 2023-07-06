@@ -8,7 +8,7 @@ Originally designed for GameCat, ECR Debugger is now standalone and can be imple
 ## Installing
 
 ### Wally
-Add ```debugger = "aloroid/ecr-debugger@0.1.0"``` to your wally.toml
+Add ```debugger = "aloroid/ecr-debugger@0.1.1"``` to your wally.toml
 
 ### Roblox
 Get the release from Releases.
