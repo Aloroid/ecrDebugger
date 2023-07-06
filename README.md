@@ -17,7 +17,7 @@ Get the release from Releases.
 ECR Debugger returns a function which is used to start the debugger.
 This function needs to be called in order to start the debugger. You'll need to provide the list of components and registry in order for it to succesfully start. Otherwise, it will error.
 
-Optionally, you can also provide hook functions which when both are provided enable the Watch functionality of the debugger. This allows you to watch Systems and what changes they are making to the given entities.
+Optionally, you can also provide hook functions which when both are provided enable the Watch functionality of the debugger. This allows you to watch Systems and what changes they are making to the given entities. You need to provide a before hook, which will run before the system runs and is used to start connections for recording changes, and a after hook which will be used to cleanup said connections.
 ```lua
 local registry = ecr.registry()
 local debugger = require(path.to.debugger)
@@ -51,7 +51,7 @@ In order for the systems screen to work properly, you'll need to call `debugger.
 When you remove a system, call `debugger.remove(systemName)`. If you don't know what system has been removed, or you cannot track something but know something changed about your systems, run `debugger.clear()` which will clear all system data. Watches are not included.
 
 ## Displaying the debugger
-After the debugger has been setup, you'll need to add a way to display it. The easiest method is by listening to UserInputService for a specific key and calling `debugger.toggle()` like so:
+After the debugger has been setup, you'll need to add a way to toggle it. The easiest method is by listening to UserInputService for a specific key and calling `debugger.toggle()` like so:
 ```lua
 UserInputService.InputBegan:Connect(function(input)
 	if input.KeyCode == Enum.KeyCode.F4 then
@@ -59,3 +59,7 @@ UserInputService.InputBegan:Connect(function(input)
 	end
 end)
 ```
+
+# Finish
+
+You're done, Congratulations!
