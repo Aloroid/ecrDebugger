@@ -1,0 +1,9 @@
+{
+	"name": "debuggerPlugin",
+	"tree": {
+		"$path": "Packages",
+		"debugger": {
+			"$path": "src"
+		}
+	}
+}
