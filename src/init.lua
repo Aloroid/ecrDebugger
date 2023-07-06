@@ -22,6 +22,7 @@ return function(state: typeof(State))
 
 	local SystemsService = require(Services.SystemsService)
 	local SystemWatchService = require(Services.SystemWatchService)
+	local ServerMessagingService = require(Services.ServerMessagingService)
 	local OpenedService = require(Services.OpenedService)
 
 	return {
@@ -48,6 +49,8 @@ return function(state: typeof(State))
 
 		--clears all the logged data of systems (not watches)
 		clear = function() SystemsService:Clear() end,
+
+		getPaused = function() return ServerMessagingService.Paused end,
 
 		-- Watches
 

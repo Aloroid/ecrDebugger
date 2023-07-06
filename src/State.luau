@@ -12,6 +12,8 @@ return {
 	components = {} :: { [string]: number },
 	registry = ecr.registry() :: ecr.Registry,
 
+	pauseWhitelist = {} :: { number | string },
+
 	hookBeforeSystemRun = nil :: ((systemName: string, callback: () -> ()) -> () -> ())?,
 	hookAfterSystemRun = nil :: ((systemName: string, callback: (timeTaken: number?) -> ()) -> () -> ())?,
 }

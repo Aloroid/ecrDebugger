@@ -1,12 +1,10 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
 local Plugin = script.Parent.Parent.Parent.Parent
 local Services = Plugin.Services
 local Packages = Plugin.Parent
 
 local CubeCat = require(Packages.CubeCat)
 local Fusion = require(Packages.Fusion)
-local ecr = require(ReplicatedStorage.Packages.ecr)
+local ecr = require(Packages.ecr)
 
 local SystemWatchService = require(Services.SystemWatchService)
 
@@ -74,9 +72,7 @@ local function entityPane(props: entityPane)
 	local systemName = props.SystemName
 	local watch = SystemWatchService:GetWatch(systemName)
 	local frame = props.Frame
-	local currentFrame = Computed(function()
-		return unwrap(watch.frames)[unwrap(frame)]
-	end)
+	local currentFrame = Computed(function() return unwrap(watch.frames)[unwrap(frame)] end)
 
 	local sizes = { Value(0.3), Value(0.1), Value(0.3), Value(0.3) }
 	local minSizes = { 0.1, 0.1, 0.1, 0.1 }
@@ -85,9 +81,7 @@ local function entityPane(props: entityPane)
 	local function field(id: Fusion.Value<number>, index: number)
 		return CubeCat.Components.Background({
 
-			Size = Computed(function()
-				return UDim2.fromScale(unwrap(sizes[index]), 1)
-			end),
+			Size = Computed(function() return UDim2.fromScale(unwrap(sizes[index]), 1) end),
 			Position = Computed(function()
 				local total = 0
 
@@ -115,15 +109,11 @@ local function entityPane(props: entityPane)
 						local id = unwrap(id) + 1
 						local frame = unwrap(currentFrame)
 
-						if frame == nil then
-							return "err bad frame"
-						end
+						if frame == nil then return "err bad frame" end
 
 						local log = frame.logs[id]
 
-						if log == nil then
-							return `err {id} no log`
-						end
+						if log == nil then return `err {id} no log` end
 
 						if index == 1 then
 							return log.tag
@@ -179,17 +169,13 @@ local function entityPane(props: entityPane)
 				StreamIn = function(index)
 					return CubeCat.Components.Background({
 						Size = UDim2.new(1, 0, 0, 24),
-						Position = Computed(function()
-							return UDim2.fromOffset(0, unwrap(index) * 24)
-						end),
+						Position = Computed(function() return UDim2.fromOffset(0, unwrap(index) * 24) end),
 
 						BackgroundTransparency = 1,
 						NoList = true,
 						NoPadding = true,
 
-						Visible = Computed(function()
-							return unwrap(index) ~= ecr.null
-						end),
+						Visible = Computed(function() return unwrap(index) ~= ecr.null end),
 
 						[Children] = {
 							field(index, 1),
@@ -202,9 +188,7 @@ local function entityPane(props: entityPane)
 				ItemSize = 24,
 
 				MaxItems = Computed(function()
-					if unwrap(currentFrame) == nil then
-						return 0
-					end
+					if unwrap(currentFrame) == nil then return 0 end
 
 					return #unwrap(currentFrame).logs
 				end),

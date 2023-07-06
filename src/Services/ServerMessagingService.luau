@@ -5,6 +5,7 @@ local Packages = Plugin.Parent
 
 local CubeCat = require(Packages.CubeCat)
 local Fusion = require(Packages.Fusion)
+local State = require(Plugin.State)
 
 local ServerMessagingService = CubeCat.CreateService({
 	Name = "ServerMessagingService",
@@ -13,7 +14,7 @@ local ServerMessagingService = CubeCat.CreateService({
 local debugger_stop
 local paused = Fusion.Value(false)
 
-ServerMessagingService.PausedValue = paused
+ServerMessagingService.IsPaused = paused
 ServerMessagingService.Paused = false
 
 function ServerMessagingService:ToggleDebuggerPaused(result: boolean)
@@ -29,9 +30,15 @@ function ServerMessagingService:Init()
 
 	if RunService:IsServer() then
 		debugger_stop = Instance.new("RemoteEvent", script)
-		debugger_stop.OnServerEvent:Connect(function(_, bool)
-			updatePaused(bool)
-			debugger_stop:FireAllClients(bool)
+		debugger_stop.OnServerEvent:Connect(function(player, bool)
+			if
+				table.find(State.pauseWhitelist, player.UserId)
+				or table.find(State.pauseWhitelist, player.Name)
+				or RunService:IsStudio()
+			then
+				updatePaused(bool)
+				debugger_stop:FireAllClients(bool)
+			end
 		end)
 	else
 		debugger_stop = script:WaitForChild("RemoteEvent")
