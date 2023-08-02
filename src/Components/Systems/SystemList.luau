@@ -34,7 +34,7 @@ export type entityView = {
 local function entityView(props: entityView)
 	local entityView = CubeCat.Components.ScrollingFrame({
 
-		Size = UDim2.new(1, 0, 1, -188),
+		Size = UDim2.new(1, 0, 1, -188-32),
 
 		ListPadding = 4,
 

@@ -28,8 +28,7 @@ local COMPONENT_ONLY_PROPERTIES = {}
 local function LoopControl(props: entityPane)
 	local LoopControl = CubeCat.Components.Background({
 
-		Size = UDim2.new(1, 0, 0, 32),
-		FillDirection = Enum.FillDirection.Horizontal,
+		Size = UDim2.new(1, 0, 0, 64),
 
 		NoPadding = true,
 
@@ -40,15 +39,45 @@ local function LoopControl(props: entityPane)
 				Size = UDim2.fromScale(1, 0),
 
 				Text = Computed(function()
-					if unwrap(ServerMessagingService.IsPaused) == true then
-						return "Resume"
+					if unwrap(ServerMessagingService.IsPausedServer) == true then
+						return "Resume Server"
 					else
-						return "Pause"
+						return "Pause Server"
 					end
 				end),
 
 				[OnEvent("Activated")] = function()
-					ServerMessagingService:ToggleDebuggerPaused(not unwrap(ServerMessagingService.IsPaused))
+					ServerMessagingService:ToggleDebuggerPaused(not unwrap(ServerMessagingService.IsPausedServer))
+				end,
+
+				[Children] = CubeCat.Components.Image({
+
+					Size = UDim2.fromOffset(26, 26),
+
+					Image = Computed(function()
+						if unwrap(ServerMessagingService.IsPausedServer) == true then
+							return "rbxasset://textures/DeveloperFramework/MediaPlayerControls/play_button.png"
+						else
+							return "rbxasset://textures/DeveloperFramework/MediaPlayerControls/pause_button.png"
+						end
+					end),
+				}),
+			}),
+
+			CubeCat.Components.Button({
+
+				Size = UDim2.fromScale(1, 0),
+
+				Text = Computed(function()
+					if unwrap(ServerMessagingService.IsPaused) == true then
+						return "Resume Locally"
+					else
+						return "Pause Locally"
+					end
+				end),
+
+				[OnEvent("Activated")] = function()
+					ServerMessagingService:ToggleLocalDebuggerPaused(not unwrap(ServerMessagingService.IsPaused))
 				end,
 
 				[Children] = CubeCat.Components.Image({
