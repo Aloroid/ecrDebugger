@@ -291,6 +291,7 @@ local function entityPane(props: entityPane)
 			if unwrap(isVisible) == false then return end
 
 			for id in EntityQueryService:getQuery(queryResults.included, queryResults.excluded) do
+				print(type(id), id)
 				table.insert(collectedIds, id)
 			end
 

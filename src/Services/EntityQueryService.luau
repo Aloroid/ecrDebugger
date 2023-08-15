@@ -3,6 +3,7 @@ local Packages = Plugin.Parent
 
 local CubeCat = require(Packages.CubeCat)
 local State = require(Plugin.State)
+local ecr = require(Packages.ecr)
 
 local components = State.components
 local registry = State.registry
@@ -86,7 +87,7 @@ function EntityQueryService:getQuery(included, excluded)
 
 	if #arrayInclude == 0 and #arrayExclude == 0 then
 		local ids = {}
-		for id in registry do
+		for id in registry:view(ecr.entity) do
 			ids[id] = true
 		end
 		return ids

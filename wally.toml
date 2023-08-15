@@ -1,13 +1,25 @@
 [package]
 name = "aloroid/ecr-debugger"
 description = "A ECS game debugger for ecr"
-version = "0.1.1"
+version = "0.1.7"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
-exclude = ["export.project.json", "README.md", "sourcemap.json", "stylua.toml", "wally.lock", ".gitignore", "aftman.toml", "CHANGELOG.md", ".gitignore", ".gitattributes", ".vscode"]
+exclude = [
+	"export.project.json",
+	"README.md",
+	"sourcemap.json",
+	"stylua.toml",
+	"wally.lock",
+	".gitignore",
+	"aftman.toml",
+	"CHANGELOG.md",
+	".gitignore",
+	".gitattributes",
+	".vscode",
+]
 include = ["src", "wally.toml", "LICENSE"]
 
 [dependencies]
 Fusion = "elttob/fusion@0.2.0"
-CubeCat = "aloroid/cubecat@0.4.3"
-ecr = "centau/ecr@0.6.1"
+CubeCat = "aloroid/cubecat@0.4.5"
+ecr = "centau/ecr@0.7"

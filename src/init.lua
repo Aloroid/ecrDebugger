@@ -9,7 +9,39 @@ local Services = script.Services
 local CubeCat = require(Packages.CubeCat)
 local State = require(script.State)
 
-return function(state: typeof(State))
+type Watch = {
+
+	enable: (Watch) -> (),
+	disable: (Watch) -> (),
+	clear: (Watch) -> ()
+
+}
+
+type API = {
+	toggle: () -> (),
+	addSystemData: (systemName: string, order: number, timeTaken: number) -> (),
+	resetTime: (systemName: string) -> (),
+	remove: (systemName: string) -> (),
+	push: () -> (),
+	clear: () -> (),
+	getPaused: () -> boolean,
+	createWatch: (systemName: string) -> Watch,
+	getWatch: (systemName: string) -> Watch
+}
+
+local cachedApi
+local waitingForApi = {}
+
+return function(state: typeof(State)?): API
+
+	if state == nil or cachedApi then
+		if cachedApi == nil then
+			table.insert(waitingForApi, coroutine.running())
+		end
+
+		return cachedApi
+	end
+
 	assert(state.components, "no components table, components is required")
 	assert(state.registry, "no registry, registry is required")
 
@@ -25,7 +57,7 @@ return function(state: typeof(State))
 	local ServerMessagingService = require(Services.ServerMessagingService)
 	local OpenedService = require(Services.OpenedService)
 
-	return {
+	cachedApi = {
 
 		-- Display
 
@@ -60,4 +92,10 @@ return function(state: typeof(State))
 		--gets a existing watch or creates a new one
 		getWatch = function(systemName: string) return SystemWatchService:GetWatch(systemName) end,
 	}
+
+	for _, thread in waitingForApi do
+		coroutine.resume(thread)
+	end
+
+	return cachedApi
 end

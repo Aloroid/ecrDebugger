@@ -13,28 +13,18 @@ local ServerMessagingService = CubeCat.CreateService({
 
 local debugger_stop
 local paused = Fusion.Value(false)
-local serverPaused = Fusion.Value(false)
 
 ServerMessagingService.IsPaused = paused
-ServerMessagingService.IsPausedServer = serverPaused
 ServerMessagingService.Paused = false
-ServerMessagingService.PausedServer = false
 
 function ServerMessagingService:ToggleDebuggerPaused(result: boolean)
 	debugger_stop:FireServer(result)
 	print("setting server state to", result)
 end
 
-function ServerMessagingService:ToggleLocalDebuggerPaused(to: boolean)
-	paused:set(to)
-	ServerMessagingService.Paused = to
-end
-
 function ServerMessagingService:Init()
 	local function updatePaused(bool)
-		serverPaused:set(bool)
 		paused:set(bool)
-		ServerMessagingService.IsPausedServer = bool
 		ServerMessagingService.Paused = bool
 	end
 
